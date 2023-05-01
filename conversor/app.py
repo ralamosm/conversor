@@ -1,64 +1,33 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
+
+MONEDAS = ("CLP", "AR", "CO", "MX", "PE", "USD")
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    texto_conversion = ''
+    texto_conversion = None
     if request.method == 'POST':
         monto = request.form['monto']
         moneda_origen = request.form['moneda_origen']
         moneda_destino = request.form['moneda_destino']
         monto_destino = None
 
-        if moneda_destino == 'us' and moneda_origen == 'cl':
+        if moneda_destino == 'USD' and moneda_origen == 'CLP':
             monto_destino = int(monto) / 800.0
-        elif moneda_destino == 'cl' and moneda_origen == 'us':
+        elif moneda_destino == 'CLP' and moneda_origen == 'USD':
             monto_destino = int(monto) * 800.0
 
         if monto_destino is None:
             texto_conversion = f"""
-<p>Quieres convertir <strong>${monto} {moneda_origen}</strong> a <strong>{moneda_destino}</strong>.</p>
+<div class="alert">Quieres convertir <strong>${monto} {moneda_origen}</strong> a <strong>{moneda_destino}</strong>.</div>
 """
         else:
-            texto_conversion = f"<p>Tus <strong>${monto} {moneda_origen}</strong> son <strong>${monto_destino} {moneda_destino}</strong>.</p>"
-
-    return f"""
-<h1>Conversor de monedas</h1>
-<!-- aca va text_conversion, entramos por {request.method} -->
-{texto_conversion}
-<!-- aca termina texto_conversion -->
-<form method="POST">
-    <label for="monto">
-        Cuanto tienes para convertir?
-        <input type="text" name="monto" value="0" />
-    </label>
-
-    <label for="moneda_origen">
-        Que moneda es?
-        <select name="moneda_origen">
-            <option value="cl">CLP</option>
-            <option value="ar">ARG</option>
-            <option value="co">COL</option>
-            <option value="mx">MEX</option>
-            <option value="us">USD</option>
-        </select>
-    </label>
-
-    <label for="moneda_destino">
-        A que moneda quieres convertir?
-        <select name="moneda_destino">
-            <option value="cl">CLP</option>
-            <option value="ar">ARG</option>
-            <option value="co">COL</option>
-            <option value="mx">MEX</option>
-            <option value="us">USD</option>
-        </select>
-    </label>
-
-    <input type="submit" name="submit" value="Convertir" />
-</form>
+            texto_conversion = f"""
+<div class="alert alert-success">Tus <strong>${monto} {moneda_origen}</strong> son <strong>${monto_destino} {moneda_destino}</strong>.</div>
 """
+
+    return render_template("index.html", texto_conversion=texto_conversion, monedas=MONEDAS)
 
 if __name__ == '__main__':
     app.run(debug=True)

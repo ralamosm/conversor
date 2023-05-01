@@ -1,0 +1,51 @@
+<html>
+<head>
+    <title>Conversor de monedas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<h1>Conversor de monedas</h1>
+<div class="container">
+<!-- aca va text_conversion, entramos por {request.method} -->
+{% if texto_conversion %}
+    {{texto_conversion | safe }}
+{% endif %}
+<!-- aca termina texto_conversion -->
+<form method="POST">
+    
+    <div class="input-group mb-3">
+        <span class="input-group-text">$</span>
+        <input type="text" class="form-control" aria-label="monto" id="monto" name="monto" placeholder="Monto a convertir">
+    </div>
+    <div class="form-group">
+        <label for="moneda_origen">
+        Que moneda es?
+        </label>
+        <select class="form-control" id="moneda_origen" name="moneda_origen">
+            {% for moneda in monedas %}
+                <option value="{{moneda}}">{{moneda}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="moneda_destino">
+        A que moneda quieres convertir?
+        </label>
+        <select class="form-control" id="moneda_destino" name="moneda_destino">
+            {% for moneda in monedas %}
+                <option value="{{moneda}}">{{moneda}}</option>
+            {% endfor %}
+        </select>
+   </div>
+
+    <button type="submit" class="btn btn-primary">Convertir</button>
+    
+</form>
+</div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
