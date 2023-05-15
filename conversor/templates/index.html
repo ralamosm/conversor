@@ -2,6 +2,7 @@
 <head>
     <title>Conversor de monedas</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
@@ -14,33 +15,47 @@
 <!-- aca termina texto_conversion -->
 <form method="POST">
     
-    <div class="input-group mb-3">
-        <span class="input-group-text">$</span>
-        <input type="text" class="form-control" aria-label="monto" id="monto" name="monto" placeholder="Monto a convertir">
+    <div class="form-group col-sm-12 col-md-6 col-lg-4">
+        <label for="monto">Monto a convertir:</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text">$</span>
+            <input type="text" class="form-control" aria-label="monto" id="monto" name="monto" value = "{% if monto %}{{monto}}{% endif %}" placeholder="Monto a convertir">
+        </div>
     </div>
-    <div class="form-group">
-        <label for="moneda_origen">
-        Que moneda es?
-        </label>
+    
+    <div class="form-group col-sm-12 col-md-6 col-lg-4">
+        <label for="moneda_origen">Que moneda es?</label>
         <select class="form-control" id="moneda_origen" name="moneda_origen">
             {% for moneda in monedas %}
-                <option value="{{moneda}}">{{moneda}}</option>
+            <option value="{{moneda}}" 
+            {% if moneda_origen %}
+                {% if moneda_origen == moneda %}
+                 selected
+                {% endif %}
+            {% endif %}
+            >{{moneda}}</option>
             {% endfor %}
         </select>
     </div>
 
-    <div class="form-group">
-        <label for="moneda_destino">
-        A que moneda quieres convertir?
-        </label>
+    <div class="form-group col-sm-12 col-md-6 col-lg-4">
+        <label for="moneda_destino">A que moneda quieres convertir?</label>
         <select class="form-control" id="moneda_destino" name="moneda_destino">
             {% for moneda in monedas %}
-                <option value="{{moneda}}">{{moneda}}</option>
+            <option value="{{moneda}}" 
+            {% if moneda_destino %}
+                {% if moneda_destino == moneda %}
+                 selected
+                {% endif %}
+            {% endif %}
+            >{{moneda}}</option>
             {% endfor %}
         </select>
    </div>
 
-    <button type="submit" class="btn btn-primary">Convertir</button>
+    <div class="form-group col-sm-12">
+        <button type="submit" class="btn btn-primary">Convertir</button>
+    </div>
     
 </form>
 </div>
